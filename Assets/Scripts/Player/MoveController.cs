@@ -9,7 +9,7 @@ namespace Softweather.Player
         public void SetMoveInput(Vector2 moveInput)
         {
             playerMoveInput = moveInput;
-            Debug.Log("playerMoveInput: " + moveInput);
+            //Debug.Log("playerMoveInput: " + moveInput);
         }
     }
 }

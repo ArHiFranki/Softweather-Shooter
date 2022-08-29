@@ -6,7 +6,7 @@ namespace Softweather.Player
     {
         public void Fire()
         {
-            Debug.Log("Fire!");
+            //Debug.Log("Fire!");
         }
     }
 }

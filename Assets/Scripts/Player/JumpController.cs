@@ -6,7 +6,7 @@ namespace Softweather.Player
     {
         public void Jump()
         {
-            Debug.Log("Jump!");
+            //Debug.Log("Jump!");
         }
     }
 }
