@@ -55,7 +55,7 @@ namespace Softweather.Player
             cameraTargetRotation = cameraTransform.localRotation;
         }
 
-        private void LookRotation(Transform character, Transform camera)
+        private void LookRotation(Transform playerTransform, Transform cameraTransform)
         {
             float rotationY = playerLookInput.x * sensitivityX;
             float rotationX = playerLookInput.y * sensitivityY;
@@ -70,13 +70,13 @@ namespace Softweather.Player
 
             if (isSmooth)
             {
-                character.localRotation = Quaternion.Slerp(character.localRotation, playerTargetRotation, smoothTime * Time.deltaTime);
-                camera.localRotation = Quaternion.Slerp(camera.localRotation, cameraTargetRotation, smoothTime * Time.deltaTime);
+                playerTransform.localRotation = Quaternion.Slerp(playerTransform.localRotation, playerTargetRotation, smoothTime * Time.deltaTime);
+                cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, cameraTargetRotation, smoothTime * Time.deltaTime);
             }
             else
             {
-                character.localRotation = playerTargetRotation;
-                camera.localRotation = cameraTargetRotation;
+                playerTransform.localRotation = playerTargetRotation;
+                cameraTransform.localRotation = cameraTargetRotation;
             }
         }
 
