@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityStandardAssets.Characters.FirstPerson.RigidbodyFirstPersonController;
 
 namespace Softweather.Player
 {
@@ -31,7 +32,9 @@ namespace Softweather.Player
         {
             if (isGrounded && !isJumping)
             {
-                myRigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                myRigidbody.velocity = new Vector3(myRigidbody.velocity.x, 0f, myRigidbody.velocity.z);
+                myRigidbody.AddForce(new Vector3(0f, jumpForce, 0f), ForceMode.Impulse);
+                isJumping = true;
             }
         }
 
