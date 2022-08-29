@@ -5,6 +5,7 @@ namespace Softweather.Player
     [RequireComponent(typeof(Rigidbody))]
     public class MoveController : MonoBehaviour
     {
+        [Header("Player movement setup")]
         [SerializeField] private float moveSpeed = 10f;
         [SerializeField] private float rigidbodyDrag = 6f;
         [SerializeField] private float movementMultiplier = 10f;

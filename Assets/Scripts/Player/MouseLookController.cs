@@ -5,33 +5,28 @@ namespace Softweather.Player
     [RequireComponent(typeof(Rigidbody))]
     public class MouseLookController : MonoBehaviour
     {
-        [SerializeField] private Camera playerCamera;
+        [Header("Player mouse look setup")]
         [SerializeField] private float sensitivityX = 2f;
         [SerializeField] private float sensitivityY = 2f;
-        [SerializeField] private float minX = -90f;
-        [SerializeField] private float maxX = 90f;
-        [SerializeField] private float smoothTime = 5f;
-        [SerializeField] private bool isSmooth = true;
-        [SerializeField] private bool clampVerticalRotation = true;
+        [SerializeField] private float multiplier = 0.01f;
+        [SerializeField] private float rotationXMin = -90f;
+        [SerializeField] private float rotationXMax = 90f;
+        [SerializeField] private Camera playerCamera;
 
-        private Quaternion playerTargetRotation;
-        private Quaternion cameraTargetRotation;
         private Vector2 playerLookInput;
-        private Rigidbody myRigidbody;
-
-        private void Awake()
-        {
-            myRigidbody = GetComponent<Rigidbody>();
-        }
+        private float rotationX;
+        private float rotationY;
 
         private void Start()
         {
-            InitMouseLook(transform, playerCamera.transform);
+            LockCursor();
         }
 
         private void Update()
         {
+            LookRotation();
             RotateView();
+            RotatePlayer();
         }
 
         public void SetLookInput(Vector2 lookInput)
@@ -39,61 +34,28 @@ namespace Softweather.Player
             playerLookInput = lookInput;
         }
 
+        private void LookRotation()
+        {
+            rotationY += playerLookInput.x * sensitivityX * multiplier;
+            rotationX -= playerLookInput.y * sensitivityY * multiplier;
+
+            rotationX = Mathf.Clamp(rotationX, rotationXMin, rotationXMax);
+        }
+
         private void RotateView()
         {
-            if (Mathf.Abs(Time.timeScale) < float.Epsilon) return;
-
-            float oldRotationY = transform.eulerAngles.y;
-            LookRotation(transform, playerCamera.transform);
-            Quaternion velocityRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldRotationY, Vector3.up);
-            myRigidbody.velocity = velocityRotation * myRigidbody.velocity;
+            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
         }
 
-        private void InitMouseLook(Transform playerTransform, Transform cameraTransform)
+        private void RotatePlayer()
         {
-            playerTargetRotation = playerTransform.localRotation;
-            cameraTargetRotation = cameraTransform.localRotation;
+            transform.localRotation = Quaternion.Euler(0f, rotationY, 0f);
         }
 
-        private void LookRotation(Transform playerTransform, Transform cameraTransform)
+        private void LockCursor()
         {
-            float rotationY = playerLookInput.x * sensitivityX;
-            float rotationX = playerLookInput.y * sensitivityY;
-
-            playerTargetRotation *= Quaternion.Euler(0f, rotationY, 0f);
-            cameraTargetRotation *= Quaternion.Euler(-rotationX, 0f, 0f);
-
-            if (clampVerticalRotation)
-            {
-                cameraTargetRotation = ClampRotationAroundXAxis(cameraTargetRotation);
-            }
-
-            if (isSmooth)
-            {
-                playerTransform.localRotation = Quaternion.Slerp(playerTransform.localRotation, playerTargetRotation, smoothTime * Time.deltaTime);
-                cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, cameraTargetRotation, smoothTime * Time.deltaTime);
-            }
-            else
-            {
-                playerTransform.localRotation = playerTargetRotation;
-                cameraTransform.localRotation = cameraTargetRotation;
-            }
-        }
-
-        private Quaternion ClampRotationAroundXAxis(Quaternion quaternion)
-        {
-            quaternion.x /= quaternion.w;
-            quaternion.y /= quaternion.w;
-            quaternion.z /= quaternion.w;
-            quaternion.w = 1.0f;
-
-            float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(quaternion.x);
-
-            angleX = Mathf.Clamp(angleX, minX, maxX);
-
-            quaternion.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
-
-            return quaternion;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }
