@@ -3,20 +3,26 @@ using UnityEngine;
 namespace Softweather.Player
 {
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(JumpController))]
     public class MoveController : MonoBehaviour
     {
         [Header("Player movement setup")]
         [SerializeField] private float moveSpeed = 10f;
-        [SerializeField] private float rigidbodyDrag = 6f;
+        [SerializeField] private float groundDrag = 6f;
+        [SerializeField] private float airDrag = 2f;
         [SerializeField] private float movementMultiplier = 10f;
+        [SerializeField] private float airMultiplier = 0.4f;
 
+        private float forceMultiplier;
         private Vector3 moveDirection;
         private Vector2 playerMoveInput;
         private Rigidbody myRigidbody;
+        private JumpController myJumpController;
 
         private void Awake()
         {
             myRigidbody = GetComponent<Rigidbody>();
+            myJumpController = GetComponent<JumpController>();
         }
 
         private void Start()
@@ -42,12 +48,28 @@ namespace Softweather.Player
 
         private void MovePlayer()
         {
-            myRigidbody.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
+            if (myJumpController.IsGrounded)
+            {
+                forceMultiplier = movementMultiplier;
+            }
+            else
+            {
+                forceMultiplier = airMultiplier;
+            }
+
+            myRigidbody.AddForce(moveDirection.normalized * moveSpeed * forceMultiplier, ForceMode.Acceleration);
         }
 
         private void DragControl()
         {
-            myRigidbody.drag = rigidbodyDrag;
+            if (myJumpController.IsGrounded)
+            {
+                myRigidbody.drag = groundDrag;
+            }
+            else
+            {
+                myRigidbody.drag = airDrag;
+            }
         }
     }
 }

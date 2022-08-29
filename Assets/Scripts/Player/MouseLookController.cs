@@ -6,12 +6,12 @@ namespace Softweather.Player
     public class MouseLookController : MonoBehaviour
     {
         [Header("Player mouse look setup")]
+        [SerializeField] private Camera playerCamera;
         [SerializeField] private float sensitivityX = 2f;
         [SerializeField] private float sensitivityY = 2f;
         [SerializeField] private float multiplier = 0.01f;
         [SerializeField] private float rotationXMin = -90f;
         [SerializeField] private float rotationXMax = 90f;
-        [SerializeField] private Camera playerCamera;
 
         private Vector2 playerLookInput;
         private float rotationX;
