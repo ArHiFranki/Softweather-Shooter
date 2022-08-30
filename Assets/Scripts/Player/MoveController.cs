@@ -12,13 +12,16 @@ namespace Softweather.Player
         [SerializeField] private float airDrag = 2f;
         [SerializeField] private float movementMultiplier = 10f;
         [SerializeField] private float airMultiplier = 0.4f;
+        [SerializeField] private float slopeOffset = 0.5f;
         [SerializeField] private Transform orientation;
+        [SerializeField] private CapsuleCollider playerCollider;
 
-        private float forceMultiplier;
         private Vector3 moveDirection;
+        private Vector3 slopeMoveDirection;
         private Vector2 playerMoveInput;
         private Rigidbody myRigidbody;
         private JumpController myJumpController;
+        private RaycastHit slopeHit;
 
         private void Awake()
         {
@@ -34,6 +37,11 @@ namespace Softweather.Player
         private void Update()
         {
             DragControl();
+
+            if (OnSlope())
+            {
+                CalculateSlopeDirection();
+            }
         }
 
         private void FixedUpdate()
@@ -49,16 +57,18 @@ namespace Softweather.Player
 
         private void MovePlayer()
         {
-            if (myJumpController.IsGrounded)
+            if (myJumpController.IsGrounded && !OnSlope())
             {
-                forceMultiplier = movementMultiplier;
+                myRigidbody.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
             }
-            else
+            else if (myJumpController.IsGrounded && OnSlope())
             {
-                forceMultiplier = airMultiplier;
+                myRigidbody.AddForce(slopeMoveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
             }
-
-            myRigidbody.AddForce(moveDirection.normalized * moveSpeed * forceMultiplier, ForceMode.Acceleration);
+            else if (!myJumpController.IsGrounded)
+            {
+                myRigidbody.AddForce(moveDirection.normalized * moveSpeed * airMultiplier, ForceMode.Acceleration);
+            }
         }
 
         private void DragControl()
@@ -71,6 +81,27 @@ namespace Softweather.Player
             {
                 myRigidbody.drag = airDrag;
             }
+        }
+
+        private void CalculateSlopeDirection()
+        {
+            slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
+        }
+
+        private bool OnSlope()
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerCollider.height / 2 + slopeOffset))
+            {
+                if (slopeHit.normal != Vector3.up)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
         }
     }
 }

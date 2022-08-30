@@ -52,6 +52,7 @@ namespace Softweather.Player
             {
                 isGrounded = false;
             }
+
             if (!previouslyGrounded && isGrounded && isJumping)
             {
                 isJumping = false;

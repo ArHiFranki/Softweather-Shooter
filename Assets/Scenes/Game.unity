@@ -682,7 +682,9 @@ MonoBehaviour:
   airDrag: 2
   movementMultiplier: 10
   airMultiplier: 0.4
+  slopeOffset: 0.5
   orientation: {fileID: 2129442497}
+  playerCollider: {fileID: 416513970}
 --- !u!114 &1781980353
 MonoBehaviour:
   m_ObjectHideFlags: 0
