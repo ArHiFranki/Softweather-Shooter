@@ -7,7 +7,7 @@ namespace Softweather.Player
     {
         [SerializeField] private Camera playerCamera;
         [SerializeField] private float range = 100f;
-        [SerializeField] private float damage = 30f;
+        //[SerializeField] private float damage = 30f;
         [SerializeField] private float timeBetweenShots = 0.5f;
         [SerializeField] private ParticleSystem muzzleFlash;
         [SerializeField] private GameObject hitEffect;
