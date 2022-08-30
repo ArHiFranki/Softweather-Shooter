@@ -21,7 +21,6 @@ namespace Softweather.Player
 
         public void Fire()
         {
-            //Debug.Log("Fire!");
             if (canShoot)
             {
                 StartCoroutine(Shoot());
