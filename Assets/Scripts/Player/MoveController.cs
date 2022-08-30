@@ -12,6 +12,7 @@ namespace Softweather.Player
         [SerializeField] private float airDrag = 2f;
         [SerializeField] private float movementMultiplier = 10f;
         [SerializeField] private float airMultiplier = 0.4f;
+        [SerializeField] private Transform orientation;
 
         private float forceMultiplier;
         private Vector3 moveDirection;
@@ -43,7 +44,7 @@ namespace Softweather.Player
         public void SetMoveInput(Vector2 moveInput)
         {
             playerMoveInput = moveInput;
-            moveDirection = transform.forward * playerMoveInput.y + transform.right * playerMoveInput.x;
+            moveDirection = orientation.forward * playerMoveInput.y + orientation.right * playerMoveInput.x;
         }
 
         private void MovePlayer()

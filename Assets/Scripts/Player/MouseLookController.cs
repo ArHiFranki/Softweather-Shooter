@@ -6,7 +6,8 @@ namespace Softweather.Player
     public class MouseLookController : MonoBehaviour
     {
         [Header("Player mouse look setup")]
-        [SerializeField] private Camera playerCamera;
+        [SerializeField] private Transform playerCamera;
+        [SerializeField] private Transform orientation;
         [SerializeField] private float sensitivityX = 2f;
         [SerializeField] private float sensitivityY = 2f;
         [SerializeField] private float multiplier = 0.01f;
@@ -44,12 +45,12 @@ namespace Softweather.Player
 
         private void RotateView()
         {
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+            playerCamera.rotation = Quaternion.Euler(rotationX, rotationY, 0f);
         }
 
         private void RotatePlayer()
         {
-            transform.localRotation = Quaternion.Euler(0f, rotationY, 0f);
+            orientation.rotation = Quaternion.Euler(0f, rotationY, 0f);
         }
 
         private void LockCursor()
