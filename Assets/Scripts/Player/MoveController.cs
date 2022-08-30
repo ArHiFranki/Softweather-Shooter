@@ -52,11 +52,12 @@ namespace Softweather.Player
         public void SetMoveInput(Vector2 moveInput)
         {
             playerMoveInput = moveInput;
-            moveDirection = orientation.forward * playerMoveInput.y + orientation.right * playerMoveInput.x;
         }
 
         private void MovePlayer()
         {
+            moveDirection = orientation.forward * playerMoveInput.y + orientation.right * playerMoveInput.x;
+
             if (myJumpController.IsGrounded && !OnSlope())
             {
                 myRigidbody.AddForce(moveDirection.normalized * moveSpeed * movementMultiplier, ForceMode.Acceleration);
