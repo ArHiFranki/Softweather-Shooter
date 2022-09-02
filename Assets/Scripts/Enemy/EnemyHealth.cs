@@ -9,13 +9,13 @@ namespace Softweather.Enemy
 
         private float currentHitPoints;
         private bool isDead = false;
-        private Animator animator;
+        private Animator myAnimator;
 
         public bool IsDead => isDead;
 
         private void Awake()
         {
-            animator = GetComponent<Animator>();
+            myAnimator = GetComponent<Animator>();
         }
 
         private void Start()
@@ -40,7 +40,7 @@ namespace Softweather.Enemy
             }
 
             isDead = true;
-            animator.SetTrigger(AnimationTriggers.DieTrigger);
+            myAnimator.SetTrigger(AnimationTriggers.DieTrigger);
         }
     }
 }
