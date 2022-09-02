@@ -2,14 +2,21 @@ using UnityEngine;
 
 namespace Softweather.Enemy
 {
+    [RequireComponent(typeof(Animator))]
     public class EnemyHealth : MonoBehaviour
     {
         [SerializeField] private float maxEnemyHealth = 100f;
 
         private float currentHitPoints;
         private bool isDead = false;
+        private Animator animator;
 
         public bool IsDead => isDead;
+
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+        }
 
         private void Start()
         {
@@ -33,6 +40,7 @@ namespace Softweather.Enemy
             }
 
             isDead = true;
+            animator.SetTrigger(AnimationTriggers.DieTrigger);
         }
     }
 }
