@@ -12,6 +12,7 @@ namespace Softweather.Player
         private float currentPlayerHealth;
 
         public event UnityAction<float, float> HealhtChanged;
+        public event UnityAction PlayerDied;
 
         private void Awake()
         {
@@ -31,6 +32,7 @@ namespace Softweather.Player
             if (currentPlayerHealth <= 0)
             {
                 deathHandler.HandleDeath();
+                PlayerDied?.Invoke();
             }
         }
     }

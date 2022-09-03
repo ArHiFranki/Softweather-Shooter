@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Softweather.Enemy;
+using Softweather.Core;
 
 namespace Softweather.Player
 {
@@ -48,11 +49,16 @@ namespace Softweather.Player
             {
                 CreateHitImpact(hit);
 
-                if (hit.transform.TryGetComponent(out DamageTaker target))
+                if (hit.transform.TryGetComponent(out DamageTaker damageTarget))
                 {
-                    target.DealDamage();
+                    damageTarget.DealDamage();
                 }
                 Debug.Log("hit: " + hit.transform.name);
+
+                if (hit.transform.TryGetComponent(out ScoreAdder scoreTarget))
+                {
+                    scoreTarget.AddScore();
+                }
             }
             else
             {

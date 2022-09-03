@@ -7,7 +7,7 @@ namespace Softweather.Core
         private int bestScore;
         private static ScoreKeeper instance;
 
-        public int BestTime => bestScore;
+        public int BestScore => bestScore;
 
         private void Awake()
         {
