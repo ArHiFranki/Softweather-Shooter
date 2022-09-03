@@ -8,11 +8,11 @@ namespace Softweather.Enemy
     [RequireComponent(typeof(EnemyHealth))]
     public class EnemyAI : MonoBehaviour
     {
-        [SerializeField] private Transform target;
         [SerializeField] private float chaseRange = 5f;
         [SerializeField] private float turnSpeed = 5f;
         [SerializeField] private float modelOffset = 0.1f;
 
+        private Transform myTarget;
         private NavMeshAgent myNavMeshAgent;
         private Animator myAnimator;
         private EnemyHealth myEnemyHealth;
@@ -39,6 +39,11 @@ namespace Softweather.Enemy
             }
         }
 
+        public void InitTarget(Transform target)
+        {
+            myTarget = target;
+        }
+
         //public void OnDamageTaken()
         //{
         //    isProvoked = true;
@@ -46,7 +51,7 @@ namespace Softweather.Enemy
 
         private void EnemyBehavior()
         {
-            distanceToTarget = Vector3.Distance(target.position, transform.position);
+            distanceToTarget = Vector3.Distance(myTarget.position, transform.position);
 
             if (isProvoked)
             {
@@ -76,7 +81,7 @@ namespace Softweather.Enemy
         {
             myAnimator.SetBool(AnimationTriggers.AttackBoolTrigger, false);
             myAnimator.SetTrigger(AnimationTriggers.MoveTrigger);
-            myNavMeshAgent.SetDestination(target.transform.position);
+            myNavMeshAgent.SetDestination(myTarget.transform.position);
         }
 
         private void AttackTarget()
@@ -86,7 +91,7 @@ namespace Softweather.Enemy
 
         private void FaceTarget()
         {
-            Vector3 direction = (target.position - transform.position).normalized;
+            Vector3 direction = (myTarget.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed * Time.deltaTime);
         }

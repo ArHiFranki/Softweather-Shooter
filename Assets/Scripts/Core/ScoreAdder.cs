@@ -5,11 +5,16 @@ namespace Softweather.Core
     public class ScoreAdder : MonoBehaviour
     {
         [SerializeField] private int score;
-        [SerializeField] private GameController myGameController;
+        private GameController myGameController;
 
         public void AddScore()
         {
             myGameController.UpdateScore(score);
+        }
+
+        public void InitGameController(GameController gameController)
+        {
+            myGameController = gameController;
         }
     }
 }
