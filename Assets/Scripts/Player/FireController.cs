@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Softweather.Enemy;
 
 namespace Softweather.Player
 {
@@ -7,7 +8,6 @@ namespace Softweather.Player
     {
         [SerializeField] private Camera playerCamera;
         [SerializeField] private float range = 100f;
-        [SerializeField] private float damage = 30f;
         [SerializeField] private float timeBetweenShots = 0.5f;
         [SerializeField] private ParticleSystem muzzleFlash;
         [SerializeField] private GameObject hitEffect;
@@ -48,10 +48,10 @@ namespace Softweather.Player
             {
                 CreateHitImpact(hit);
 
-                //if (hit.transform.TryGetComponent(out EnemyHealth target))
-                //{
-                //    target.TakeDamage(damage);
-                //}
+                if (hit.transform.TryGetComponent(out DamageTaker target))
+                {
+                    target.DealDamage();
+                }
                 Debug.Log("hit: " + hit.transform.name);
             }
             else

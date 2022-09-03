@@ -46,7 +46,7 @@ namespace Softweather.Player
 
         private void FixedUpdate()
         {
-            MovePlayer();
+            MovePlayer();                       
         }
 
         public void SetMoveInput(Vector2 moveInput)
