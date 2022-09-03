@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Softweather.Player
 {
@@ -9,6 +10,8 @@ namespace Softweather.Player
 
         private DeathHandler deathHandler;
         private float currentPlayerHealth;
+
+        public event UnityAction<float, float> HealhtChanged;
 
         private void Awake()
         {
@@ -23,6 +26,8 @@ namespace Softweather.Player
         public void TakeDamage(float damage)
         {
             currentPlayerHealth -= damage;
+            HealhtChanged?.Invoke(currentPlayerHealth, maxPlayerHealth);
+
             if (currentPlayerHealth <= 0)
             {
                 deathHandler.HandleDeath();
