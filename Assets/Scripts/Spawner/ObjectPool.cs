@@ -12,11 +12,21 @@ namespace Softweather.Spawner
         [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private int enemyPoolCapacity;
 
-        //[SerializeField] protected DisplayLeaderboard leaderboard;
         [SerializeField] protected Transform playerTransform;
         [SerializeField] protected GameController myGameController;
 
         protected List<GameObject> enemyPool = new List<GameObject>();
+
+        protected void InitPool()
+        {
+            Initialize(enemyPrefab, enemyPool, enemyContainer, enemyPoolCapacity);
+        }
+
+        protected bool TryGetObject(List<GameObject> pool, out GameObject result)
+        {
+            result = pool.FirstOrDefault(p => p.activeSelf == false);
+            return result != null;
+        }
 
         private void Initialize(GameObject prefab, List<GameObject> pool, GameObject container, int capacity)
         {
@@ -24,9 +34,7 @@ namespace Softweather.Spawner
             {
                 GameObject spawned = Instantiate(prefab, container.transform);
                 spawned.SetActive(false);
-                //spawned.GetComponent<Health>().InitLeaderboard(leaderboard);
 
-                // тут передаём все нужные компоненты
                 if (spawned.TryGetComponent(out EnemyAI enemyAI))
                 {
                     enemyAI.InitTarget(playerTransform);
@@ -39,17 +47,6 @@ namespace Softweather.Spawner
 
                 pool.Add(spawned);
             }
-        }
-
-        protected void InitPool()
-        {
-            Initialize(enemyPrefab, enemyPool, enemyContainer, enemyPoolCapacity);
-        }
-
-        protected bool TryGetObject(List<GameObject> pool, out GameObject result)
-        {
-            result = pool.FirstOrDefault(p => p.activeSelf == false);
-            return result != null;
         }
     }
 }
