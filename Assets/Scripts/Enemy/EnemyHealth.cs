@@ -31,7 +31,7 @@ namespace Softweather.Enemy
 
         private void Start()
         {
-            ResetHealth();
+            ResetEnemy();
         }
 
         public void InitSpawner(Spawner spawner)
@@ -39,10 +39,12 @@ namespace Softweather.Enemy
             mySpawner = spawner;
         }
 
-        public void ResetHealth()
+        public void ResetEnemy()
         {
             currentHitPoints = maxEnemyHealth;
             isDead = false;
+            SetEnemyAICondition(true);
+            myEnemyAI.SetProvokedCondition(false);
         }
 
         public void TakeDamage(float damage)
@@ -68,15 +70,17 @@ namespace Softweather.Enemy
         private IEnumerator DieCoroutine()
         {
             isDead = true;
-            myEnemyAI.enabled = false;
-            myNavMeshAgent.enabled = false;
+            SetEnemyAICondition(false);
             mySpawner.SpawnAdditinalEnemies();
             myAnimator.SetTrigger(AnimationTriggers.DieTrigger);
             yield return new WaitForSeconds(dieAnimation.length);
-            myEnemyAI.enabled = true;
-            myNavMeshAgent.enabled = true;
-            myEnemyAI.SetProvokedCondition(false);
             gameObject.SetActive(false);
+        }
+
+        private void SetEnemyAICondition(bool condition)
+        {
+            myEnemyAI.enabled = condition;
+            myNavMeshAgent.enabled = condition;
         }
     }
 }

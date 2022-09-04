@@ -67,7 +67,7 @@ namespace Softweather.ObjectSpawner
             if (spawnObject.TryGetComponent(out EnemyHealth enemyHealth))
             {
                 enemyHealth.InitSpawner(this);
-                enemyHealth.ResetHealth();
+                enemyHealth.ResetEnemy();
             }
             spawnObject.SetActive(true);
             spawnObject.transform.position = spawnPoint;
