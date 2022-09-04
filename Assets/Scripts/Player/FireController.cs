@@ -48,16 +48,16 @@ namespace Softweather.Player
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, range))
             {
                 CreateHitImpact(hit);
-
-                if (hit.transform.TryGetComponent(out DamageTaker damageTarget))
-                {
-                    damageTarget.DealDamage();
-                }
                 Debug.Log("hit: " + hit.transform.name);
 
-                if (hit.transform.TryGetComponent(out ScoreAdder scoreTarget))
+                if (hit.transform.TryGetComponent(out DamageTaker damageTaker))
                 {
-                    scoreTarget.AddScore();
+                    damageTaker.DealDamage();
+                }
+
+                if (hit.transform.TryGetComponent(out ScoreAdder scoreAdder))
+                {
+                    scoreAdder.AddScore();
                 }
             }
             else

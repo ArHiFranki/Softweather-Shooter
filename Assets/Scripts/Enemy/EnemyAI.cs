@@ -30,8 +30,7 @@ namespace Softweather.Enemy
         {
             if (myEnemyHealth.IsDead)
             {
-                enabled = false;
-                myNavMeshAgent.enabled = false;
+                return;
             }
             else
             {
@@ -44,10 +43,10 @@ namespace Softweather.Enemy
             myTarget = target;
         }
 
-        //public void OnDamageTaken()
-        //{
-        //    isProvoked = true;
-        //}
+        public void SetProvokedCondition(bool condition)
+        {
+            isProvoked = condition;
+        }
 
         private void EnemyBehavior()
         {
