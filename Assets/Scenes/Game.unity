@@ -2382,6 +2382,7 @@ MonoBehaviour:
   multiplier: 0.1
   rotationXMin: -90
   rotationXMax: 90
+  myGameController: {fileID: 231219331}
 --- !u!114 &1781980354
 MonoBehaviour:
   m_ObjectHideFlags: 0
