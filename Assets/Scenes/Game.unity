@@ -1943,10 +1943,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyContainer: {fileID: 553187657}
   enemyPrefab: {fileID: 1711801931615514160, guid: 4b870558ab4b15a458eab24aabcff533, type: 3}
-  enemyPoolCapacity: 50
+  enemyPoolCapacity: 8
   playerTransform: {fileID: 1781980348}
   myGameController: {fileID: 231219331}
-  enemyToSpawn: 2
+  startEnemiesCount: 2
+  spawnPerDeathCount: 2
   spawnPoints:
   - {fileID: 1680814138}
   - {fileID: 580905221}

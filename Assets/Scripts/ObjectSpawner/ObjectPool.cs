@@ -4,7 +4,7 @@ using UnityEngine;
 using Softweather.Enemy;
 using Softweather.Core;
 
-namespace Softweather.Spawner
+namespace Softweather.ObjectSpawner
 {
     public class ObjectPool : MonoBehaviour
     {

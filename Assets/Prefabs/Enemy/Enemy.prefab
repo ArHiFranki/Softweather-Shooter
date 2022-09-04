@@ -74,6 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxEnemyHealth: 100
+  dieAnimation: {fileID: 7400000, guid: 812aae90a9297f249908057eed4c0879, type: 2}
 --- !u!114 &1711801931615514158
 MonoBehaviour:
   m_ObjectHideFlags: 0
