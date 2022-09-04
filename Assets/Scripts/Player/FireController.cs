@@ -12,6 +12,7 @@ namespace Softweather.Player
         [SerializeField] private float timeBetweenShots = 0.5f;
         [SerializeField] private ParticleSystem muzzleFlash;
         [SerializeField] private GameObject hitEffect;
+        [SerializeField] private GameController myGameController;
 
         private bool canShoot = true;
 
@@ -22,7 +23,7 @@ namespace Softweather.Player
 
         public void Fire()
         {
-            if (canShoot)
+            if (canShoot && !myGameController.IsPlayerDead)
             {
                 StartCoroutine(Shoot());
             }
