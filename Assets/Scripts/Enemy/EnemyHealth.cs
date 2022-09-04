@@ -5,9 +5,10 @@ using Softweather.ObjectSpawner;
 
 namespace Softweather.Enemy
 {
+    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(EnemyAI))]
     [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(CollidersController))]
     public class EnemyHealth : MonoBehaviour
     {
         [SerializeField] private float maxEnemyHealth = 100f;
@@ -19,6 +20,7 @@ namespace Softweather.Enemy
         private Spawner mySpawner;
         private EnemyAI myEnemyAI;
         private NavMeshAgent myNavMeshAgent;
+        private CollidersController myCollidersController;
 
         public bool IsDead => isDead;
 
@@ -27,6 +29,7 @@ namespace Softweather.Enemy
             myAnimator = GetComponent<Animator>();
             myEnemyAI = GetComponent<EnemyAI>();
             myNavMeshAgent = GetComponent<NavMeshAgent>();
+            myCollidersController = GetComponent<CollidersController>();
         }
 
         private void Start()
@@ -44,6 +47,7 @@ namespace Softweather.Enemy
             currentHitPoints = maxEnemyHealth;
             isDead = false;
             SetEnemyAICondition(true);
+            myCollidersController.SetColliderCondition(true);
             myEnemyAI.SetProvokedCondition(false);
         }
 
@@ -71,8 +75,9 @@ namespace Softweather.Enemy
         {
             isDead = true;
             SetEnemyAICondition(false);
-            mySpawner.SpawnAdditinalEnemies();
+            myCollidersController.SetColliderCondition(false);
             myAnimator.SetTrigger(AnimationTriggers.DieTrigger);
+            mySpawner.SpawnAdditinalEnemies();
             yield return new WaitForSeconds(dieAnimation.length);
             gameObject.SetActive(false);
         }
