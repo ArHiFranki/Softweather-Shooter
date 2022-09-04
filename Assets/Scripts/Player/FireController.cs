@@ -12,6 +12,7 @@ namespace Softweather.Player
         [SerializeField] private float timeBetweenShots = 0.5f;
         [SerializeField] private ParticleSystem muzzleFlash;
         [SerializeField] private GameObject hitEffect;
+        [SerializeField] private GameObject enemyHitEffect;
         [SerializeField] private GameController myGameController;
 
         private bool canShoot = true;
@@ -48,12 +49,14 @@ namespace Softweather.Player
             RaycastHit hit;
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, range))
             {
-                CreateHitImpact(hit);
-                Debug.Log("hit: " + hit.transform.name);
-
                 if (hit.transform.TryGetComponent(out DamageTaker damageTaker))
                 {
                     damageTaker.DealDamage();
+                    CreateHitImpact(hit, enemyHitEffect);
+                }
+                else
+                {
+                    CreateHitImpact(hit, hitEffect);
                 }
 
                 if (hit.transform.TryGetComponent(out ScoreAdder scoreAdder))
@@ -67,7 +70,7 @@ namespace Softweather.Player
             }
         }
 
-        private void CreateHitImpact(RaycastHit hit)
+        private void CreateHitImpact(RaycastHit hit, GameObject hitEffect)
         {
             GameObject impact = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(impact, 0.1f);

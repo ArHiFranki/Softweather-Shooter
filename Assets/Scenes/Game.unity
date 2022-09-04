@@ -30045,6 +30045,7 @@ MonoBehaviour:
   timeBetweenShots: 0.1
   muzzleFlash: {fileID: 1423754678}
   hitEffect: {fileID: 3022463605190818088, guid: 57e16192a8dfe7145a2b69aef4032b08, type: 3}
+  enemyHitEffect: {fileID: 3022463605190818088, guid: f5bd38f887881ce45a619eb224185e2d, type: 3}
   myGameController: {fileID: 231219331}
 --- !u!114 &1781980356
 MonoBehaviour:
