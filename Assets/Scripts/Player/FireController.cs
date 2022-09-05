@@ -14,6 +14,7 @@ namespace Softweather.Player
         [SerializeField] private GameObject hitEffect;
         [SerializeField] private GameObject enemyHitEffect;
         [SerializeField] private GameController myGameController;
+        [SerializeField] private SoundFXController mySoundFXController;
 
         private bool canShoot = true;
 
@@ -35,6 +36,7 @@ namespace Softweather.Player
             canShoot = false;
             PlayMuzzleFlash();
             ProcessRaycast();
+            mySoundFXController.PlayFireSound();
             yield return new WaitForSeconds(timeBetweenShots);
             canShoot = true;
         }
