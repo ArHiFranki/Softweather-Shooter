@@ -14,6 +14,12 @@ namespace Softweather.Enemy
             SetCollidersPositionAndRotation();
         }
 
+        public void SetColliderCondition(bool condition)
+        {
+            enemyHeadCollider.enabled = condition;
+            enemyBodyCollider.enabled = condition;
+        }
+
         private void SetCollidersPositionAndRotation()
         {
             enemyHeadCollider.transform.position = enemyHeadTransform.position;

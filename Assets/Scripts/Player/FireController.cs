@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Softweather.Enemy;
+using Softweather.Core;
 
 namespace Softweather.Player
 {
@@ -11,6 +12,8 @@ namespace Softweather.Player
         [SerializeField] private float timeBetweenShots = 0.5f;
         [SerializeField] private ParticleSystem muzzleFlash;
         [SerializeField] private GameObject hitEffect;
+        [SerializeField] private GameObject enemyHitEffect;
+        [SerializeField] private GameController myGameController;
 
         private bool canShoot = true;
 
@@ -21,7 +24,7 @@ namespace Softweather.Player
 
         public void Fire()
         {
-            if (canShoot)
+            if (canShoot && !myGameController.IsPlayerDead)
             {
                 StartCoroutine(Shoot());
             }
@@ -46,13 +49,20 @@ namespace Softweather.Player
             RaycastHit hit;
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, range))
             {
-                CreateHitImpact(hit);
-
-                if (hit.transform.TryGetComponent(out DamageTaker target))
+                if (hit.transform.TryGetComponent(out DamageTaker damageTaker))
                 {
-                    target.DealDamage();
+                    damageTaker.DealDamage();
+                    CreateHitImpact(hit, enemyHitEffect);
                 }
-                Debug.Log("hit: " + hit.transform.name);
+                else
+                {
+                    CreateHitImpact(hit, hitEffect);
+                }
+
+                if (hit.transform.TryGetComponent(out ScoreAdder scoreAdder))
+                {
+                    scoreAdder.AddScore();
+                }
             }
             else
             {
@@ -60,7 +70,7 @@ namespace Softweather.Player
             }
         }
 
-        private void CreateHitImpact(RaycastHit hit)
+        private void CreateHitImpact(RaycastHit hit, GameObject hitEffect)
         {
             GameObject impact = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(impact, 0.1f);

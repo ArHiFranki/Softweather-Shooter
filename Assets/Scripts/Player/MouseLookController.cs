@@ -1,4 +1,5 @@
 using UnityEngine;
+using Softweather.Core;
 
 namespace Softweather.Player
 {
@@ -13,6 +14,7 @@ namespace Softweather.Player
         [SerializeField] private float multiplier = 0.01f;
         [SerializeField] private float rotationXMin = -90f;
         [SerializeField] private float rotationXMax = 90f;
+        [SerializeField] private GameController myGameController;
 
         private Vector2 playerLookInput;
         private float rotationX;
@@ -25,6 +27,11 @@ namespace Softweather.Player
 
         private void Update()
         {
+            if (myGameController.IsPlayerDead)
+            {
+                return;
+            }
+
             LookRotation();
             RotateView();
             RotatePlayer();
