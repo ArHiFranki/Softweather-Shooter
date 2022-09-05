@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityStandardAssets.Characters.FirstPerson.RigidbodyFirstPersonController;
 
 namespace Softweather.Player
 {

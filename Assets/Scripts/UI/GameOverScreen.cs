@@ -39,7 +39,6 @@ namespace Softweather.UI
 
         private void OnExitButtonClick()
         {
-            Debug.Log("Application Quit");
             Application.Quit();
         }
     }
